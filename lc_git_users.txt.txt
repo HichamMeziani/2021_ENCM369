@@ -2,3 +2,4 @@ Hicham,Meziani,hichammezian11@gmail.com,HichamMeziani,2021_ENCM369
 ENCM369,Geoffrey Messier,jrlong@ucalgary.ca,UofCencm369,20201_ENCM369
 John, Ibiyemi, johnibiyemi100@gmail.com, johnny-i, 2021_ENCM369
 Hamza,Haydar , hamzahaydar@gmail.com, hamzahaydar,2021_ENCM369
+Peter, Shmerko, pshme@protonmail.ch, pshme, 2021_ENCM369
