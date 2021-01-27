@@ -5,3 +5,4 @@ Hamza,Haydar , hamzahaydar@gmail.com, hamzahaydar,2021_ENCM369
 Peter, Shmerko, pshme@protonmail.ch, pshme, 2021_ENCM369
 Antonio, Bruse Fortugno, abfortugno@gmail.com, abfortugno, 2021_ENCM369
 Zaid,Mujtaba,zaidmujtaba@gmail.com,KatheerZM,2021_ENCM369
+Mohamed, Mahmoud, mohamed.mahmoud1@ucalgary.ca, Moe-610, 2021_ENCM369
