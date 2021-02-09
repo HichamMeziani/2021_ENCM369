@@ -94,9 +94,23 @@ Promises:
 */
 void UserAppRun(void)
 {
+   
+    
+    for (u8 u8counter = 0; u8counter < 65; u8counter++)
+    {
+        for (u32 u32delay = 0; u32delay <200000; u32delay++)
+        {
+        }
+        
+       
+        LATA = 0x80;
+        LATA = LATA | u8counter;
+    }
+   
+ 
+}
 
-
-} /* end UserAppRun */
+ /* end UserAppRun */
 
 
 
