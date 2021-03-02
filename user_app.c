@@ -94,9 +94,38 @@ Promises:
 */
 void UserAppRun(void)
 {
+   
+    static u32 u32counter = 0x00; // Set a global counter variable
+     
 
+    while (u32counter < 0x40) // Counter loop up to max value of the 6 pins
+    {
+        
+        if (PORTB == 0x30) // Checking if switch has been activated
+        {
+            u32 u32delay = 0x00;
+            while (u32delay < 0xC350) // Forcing a time delay to allow for button to be released after pressing
+            {
+                u32delay++;
+            }
+            
+            
+            if (PORTB == 0x10) // Checking is switch is now off indicating a full press of the button
+            {
+                LATA++;
+                u32counter++;
+            }
+        }
+        
+        if (u32counter == 0x40) // Reset A pins if the counter has gone all the way through
+        {
+            LATA = 0x80;
+        }
 
-} /* end UserAppRun */
+    }
+}
+
+ /* end UserAppRun */
 
 
 
