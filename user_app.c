@@ -75,7 +75,15 @@ Promises:
 */
 void UserAppInitialize(void)
 {
-
+/* LED Initialization */
+    
+    LATA = 0x80;
+    
+    /*Timer0 Control Register initialization to turn timer on ---  Asynch mode , (16-bit*Fosc)/4 , 1:16 prescaler 
+     , 1:1 postscalar  */
+    
+    T0CON0 = 0X90;
+    T0CON1 = 0X54;        
 
 } /* end UserAppInitialize() */
 
@@ -94,39 +102,62 @@ Promises:
 */
 void UserAppRun(void)
 {
-   
-    static u32 u32counter = 0x00; // Set a global counter variable
-     
+    int i = 0;
+    u8 au8Pattern[] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20};
+    static u16 u16Counter = 0x00;
+    
 
-    while (u32counter < 0x40) // Counter loop up to max value of the 6 pins
+if(u16Counter == 0x3E8)
+{
+    if (i < 6)
     {
-        
-        if (PORTB == 0x30) // Checking if switch has been activated
-        {
-            u32 u32delay = 0x00;
-            while (u32delay < 0xC350) // Forcing a time delay to allow for button to be released after pressing
-            {
-                u32delay++;
-            }
-            
-            
-            if (PORTB == 0x10) // Checking is switch is now off indicating a full press of the button
-            {
-                LATA++;
-                u32counter++;
-            }
-        }
-        
-        if (u32counter == 0x40) // Reset A pins if the counter has gone all the way through
-        {
-            LATA = 0x80;
-        }
-
+        LATA = au8Pattern[i];
+        i++;       
     }
+    if (i == 6)
+    {
+        i = 0;
+    }
+    
+    u16Counter++;
 }
+    
+}
+    
 
  /* end UserAppRun */
 
+
+
+/*--------------------------------------------------------------------
+void TimeXus(INPUT_PARAMETER_)
+Sets Timer0 to count u16Microseconds_
+Requires:
+- Timer0 configured such that each timer tick is 1 microsecond
+- INPUT_PARAMETER_ is the value in microseconds to time from 1 to 65535
+Promises:
+- Pre-loads TMR0H:L to clock out desired period
+- TMR0IF cleared
+- Timer0 enabled
+*/
+void TimeXus(u16 u16Microseconds)
+{
+/* OPTIONAL: range check and handle edge cases */
+    
+  T0CON0 &= 0x7F;  // Disabling the timer during config 
+  u16 u16timer = 0x00FF - u16Microseconds;
+  
+  
+  /* Preloading TMR0H and TMR0L based on u16TimeXus */        
+  TMR0L = (u8) ((u16timer >> 8) & 0x00FF);   
+  TMR0H = (u8) (u16timer & 0x00FF);  
+             
+  /* Clearing TMR0IF and enable Timer 0 */
+  PIR3 = 0x7F;
+  T0CON0 |= 0x80; 
+  
+  
+} /* end TimeXus () */
 
 
 /*------------------------------------------------------------------------------------------------------------------*/
