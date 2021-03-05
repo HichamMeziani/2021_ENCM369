@@ -27289,6 +27289,7 @@ void SystemSleep(void);
 # 27 "./user_app.h"
 void UserAppInitialize(void);
 void UserAppRun(void);
+void TimeXus(u16 u16Microseconds);
 # 106 "./configuration.h" 2
 # 26 "user_app.c" 2
 
@@ -27311,37 +27312,55 @@ void UserAppInitialize(void)
 {
 
 
+    LATA = 0x80;
+
+
+
+
+    T0CON0 = 0X90;
+    T0CON1 = 0X54;
+
 }
-# 95 "user_app.c"
+# 103 "user_app.c"
 void UserAppRun(void)
 {
+    int i = 0;
+    u8 au8Pattern[] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20};
+    static u16 u16Counter = 0x00;
 
-    static u32 u32counter = 0x00;
 
-
-    while (u32counter < 0x40)
+if(u16Counter == 0x3E8)
+{
+    if (i < 6)
     {
-
-        if (PORTB == 0x30)
-        {
-            u32 u32delay = 0x00;
-            while (u32delay < 0xC350)
-            {
-                u32delay++;
-            }
-
-
-            if (PORTB == 0x10)
-            {
-                LATA++;
-                u32counter++;
-            }
-        }
-
-        if (u32counter == 0x40)
-        {
-            LATA = 0x80;
-        }
-
+        LATA = au8Pattern[i];
+        i++;
     }
+    if (i == 6)
+    {
+        i = 0;
+    }
+
+    u16Counter++;
+}
+
+}
+# 143 "user_app.c"
+void TimeXus(u16 u16Microseconds)
+{
+
+
+  T0CON0 &= 0x7F;
+  u16 u16timer = 0x00FF - u16Microseconds;
+
+
+
+  TMR0L = (u8) ((u16timer >> 8) & 0x00FF);
+  TMR0H = (u8) (u16timer & 0x00FF);
+
+
+  PIR3 = 0x7F;
+  T0CON0 |= 0x80;
+
+
 }
