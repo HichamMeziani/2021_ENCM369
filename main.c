@@ -49,19 +49,36 @@ void main(void)
   /* Exit initialization */
     
   /* Super loop */  
+  
   while(1)
   {
     /* Drivers */
-       
+
+
     /* Applications */
-    UserAppRun();
-   
+      UserAppRun();
+      
+ #if 1 
+    TimeXus(12);
+    while( PIR3bits.TMR0IF == 0 ) {}
+#endif
+      
      
+#if 0
     /* System sleep */
     HEARTBEAT_OFF();
     SystemSleep();
+    
+    
+    
+    TimeXus(10);
+    while((PIR3 & 0x80) != 0x80) // Checking for flag 
+    {
+    }
+    
     HEARTBEAT_ON();
     
+#endif
   } /* end while(1) main super loop */
   
 } /* end main() */
